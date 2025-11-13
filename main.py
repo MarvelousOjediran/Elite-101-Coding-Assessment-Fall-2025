@@ -16,12 +16,32 @@ def print_available_books(books_list):
         if book.get('available'):
             print(f"{book['id']:<8} {book['title']:<25} {book['author']:<20}")
 
+
+
 print_available_books(library_books)
 
 # -------- Level 2 --------
 # TODO: Create a function to search books by author OR genre
 # Search should be case-insensitive
 # Return a list of matching books
+
+def search_books(books):
+    """Search books by author or genre (case-insensitive)."""
+    term = input("Enter author or genre: ").lower()
+    
+    print(f"\nBooks matching")
+    print(f"{'ID':<6} {'Title':<20} {'Author':<15} {'Genre':<12}")
+    #used to put margins
+    print("-" * 60)
+    
+    for book in books:
+        author = book['author'].lower()
+        genre = book['genre'].lower()
+        #changes all book genres and authors to lowercase to match the input of the term
+
+        if term in author or term in genre:
+            print(f"{book['id']:<6} {book['title']:<20} {book['author']:<15} {book['genre']:<12}")
+#if the term is in the author or genre  it will print
 
 
 # -------- Level 3 --------
@@ -33,6 +53,31 @@ print_available_books(library_books)
 # If it is not available:
 #   - Print a message saying it's already checked out
 
+def checkout_book(books):
+    """Check out a book by ID."""
+    book_id = input("Enter book ID to checkout: ").strip()
+    #collects book id of user
+
+    # Find the book
+    for book in books:
+        if book['id'] == book_id:
+            if book['available']:
+                # checks if id exists then its available or else it says not found
+                book['available'] = False
+                book['due_date'] = (datetime.now() + timedelta(weeks=2)).strftime('%Y-%m-%d')
+                #if id exists and its available it changes the availability to false and gives it a 2 week due date 
+                book['checkouts'] += 1
+                print(f"Book '{book['title']}' checked out successfully!")
+                print(f"Due date: {book['due_date']}")
+                #says the book is checked out and displays new due date
+            else:
+                print(f"Book '{book['title']}' is already checked out.")
+                print(f"Due date: {book['due_date']}") 
+
+                #if book is already checked out it says then shows the due date
+            return
+    
+    print("Book ID not found.")
 
 # -------- Level 4 --------
 # TODO: Create a function to return a book by ID
