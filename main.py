@@ -60,7 +60,7 @@ def checkout_book(books):
 
     # Find the book
     for book in books:
-        if book['id'] == book_id:
+        if book['id'] == book_id.lower:
             if book['available']:
                 # checks if id exists then its available or else it says not found
                 book['available'] = False
@@ -78,15 +78,56 @@ def checkout_book(books):
             return
     
     print("Book ID not found.")
-
+checkout_book(library_books)
 # -------- Level 4 --------
 # TODO: Create a function to return a book by ID
 # Set its availability to True and clear the due_date
+
+def return_book(books):
+    """Return a book by ID and reset its availability."""
+    book_id = input("Enter book ID to return: ").strip()
+    #gets book id from user input
+    for book in books:
+        if book['id'] == book_id:
+            #if the book id exists and its not available it is now set to available because it is returned and change it to have no due date
+            if not book['available']:
+                book['available'] = True
+                book['due_date'] = None
+                print(f"Book '{book['title']}' returned successfully!")
+            else:
+                #if the book is already available it will just say its already avaiable
+                print(f"Book '{book['title']}' is already available.")
+            return
+    
+    print("Book ID not found.")
+
+
+
 
 # TODO: Create a function to list all overdue books
 # A book is overdue if its due_date is before today AND it is still checked out
 
 
+def list_overdue_books(books):
+    #sets the due date for books to today and makes an empty list
+    today = datetime.now().strftime('%Y-%m-%d')
+    overdue_books = []
+    #checks  if books are not available and the due date is set to before today then adds the book to the empty list
+    for book in books:
+        if not book['available'] and book['due_date'] and book['due_date'] < today:
+            overdue_books.append(book)
+
+
+    #if the list exists with some values, it will prince all the over due books in the format of id, title, author, due date
+    if overdue_books:
+        print("Overdue Books:")
+        print(f"{'ID':<6} {'Title':<20} {'Author':<15} {'Due Date':<12}")
+        print("-" * 60)
+        for book in overdue_books:
+            print(f"{book['id']:<6} {book['title']:<20} {book['author']:<15} {book['due_date']:<12}")
+    else:
+        print("No overdue books found.")
+        #if none of the books are overdue it will print no overdue books
 # -------- Level 5 --------
 # TODO: Convert your data into a Book class with methods like checkout() and return_book()
 # TODO: Add a simple menu that allows the user to choose different options like view, search, checkout, return, etc.
