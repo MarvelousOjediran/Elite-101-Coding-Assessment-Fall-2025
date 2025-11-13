@@ -5,6 +5,18 @@ from datetime import datetime, timedelta
 # TODO: Create a function to view all books that are currently available
 # Output should include book ID, title, and author
 
+def print_available_books(books_list):
+    #prints any available books
+    print("Available Books:")
+    print(f"{'ID':<8} {'Title':<25} {'Author':<20}")
+    #used to put margins between the categories
+    print("-" * 60)
+
+    for book in books_list:
+        if book.get('available'):
+            print(f"{book['id']:<8} {book['title']:<25} {book['author']:<20}")
+
+print_available_books(library_books)
 
 # -------- Level 2 --------
 # TODO: Create a function to search books by author OR genre
