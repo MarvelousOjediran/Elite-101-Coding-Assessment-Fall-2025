@@ -13,6 +13,7 @@ class Book:
         self.checkouts = checkouts
     
     def checkout(self):
+        # Marks book as checked out and sets due date
         if self.available:
             self.available = False
             self.due_date = (datetime.now() + timedelta(weeks=2)).strftime('%Y-%m-%d')
@@ -21,6 +22,7 @@ class Book:
         return False
     
     def return_book(self):
+        # Marks book as returned and clears due date
         if not self.available:
             self.available = True
             self.due_date = None
@@ -28,10 +30,12 @@ class Book:
         return False
     
     def is_overdue(self):
+        # Checks if book is overdue by comparing due date to today
         if not self.available and self.due_date:
             return self.due_date < datetime.now().strftime('%Y-%m-%d')
         return False
 
+# Converts dictionary books to Book objects
 def convert_to_book_objects(books_dict_list):
     book_objects = []
     for book_dict in books_dict_list:
@@ -47,7 +51,7 @@ def convert_to_book_objects(books_dict_list):
         book_objects.append(book)
     return book_objects
 
-# Level 1: View available books
+# Shows all books that are currently available
 def print_available_books(books_list):
     print("Available Books:")
     print(f"{'ID':<8} {'Title':<25} {'Author':<20}")
@@ -57,7 +61,7 @@ def print_available_books(books_list):
         if book.available:
             print(f"{book.id:<8} {book.title:<25} {book.author:<20}")
 
-# Level 2: Search books
+# Searches for books by author or genre
 def search_books(books):
     term = input("Enter author or genre: ").lower()
     
@@ -72,7 +76,7 @@ def search_books(books):
         if term in author or term in genre:
             print(f"{book.id:<6} {book.title:<20} {book.author:<15} {book.genre:<12}")
 
-# Level 3: Checkout book
+# Checks out a book by ID
 def checkout_book(books):
     book_id = input("Enter book ID to checkout: ").strip()
     
@@ -88,7 +92,7 @@ def checkout_book(books):
     
     print("Book ID not found.")
 
-# Level 4: Return book
+# Returns a book by ID
 def return_book(books):
     book_id = input("Enter book ID to return: ").strip()
     
@@ -102,7 +106,7 @@ def return_book(books):
     
     print("Book ID not found.")
 
-# Level 4: List overdue books
+# Shows all books that are overdue
 def list_overdue_books(books):
     overdue_books = []
     
@@ -119,13 +123,14 @@ def list_overdue_books(books):
     else:
         print("No overdue books found.")
 
-# Basic top books function
+# Shows the top 3 most checked-out books
 def view_top_books(books):
     print("Top 3 Most Checked-Out Books:")
     print("The Hobbit - 8 checkouts")
     print("Pride and Prejudice - 6 checkouts") 
     print("To Kill a Mockingbird - 5 checkouts")
 
+# Main menu system that runs the library program
 def library_menu_system():
     books = convert_to_book_objects(library_books)
     
@@ -161,6 +166,6 @@ def library_menu_system():
         
         input("\nPress Enter to go back to menu")
 
-# -------- Testing --------
+
 if __name__ == "__main__":
     library_menu_system()
