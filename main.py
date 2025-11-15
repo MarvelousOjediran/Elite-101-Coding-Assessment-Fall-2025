@@ -133,7 +133,7 @@ def view_top_books(books):
 # Main menu system that runs the library program
 def library_menu_system():
     books = convert_to_book_objects(library_books)
-    
+    #converts the content of the library_books file to be refractor into the book class
     while True:
         print("\nLibrary Menu:")
         print("1. View Available Books")
@@ -145,7 +145,7 @@ def library_menu_system():
         print("7. Exit")
         
         choice = input("Enter your choice (1-7): ").strip()
-        
+        # user can pick from 1-7 to choose menu options, 7 exits the menu  
         if choice == '1':
             print_available_books(books)
         elif choice == '2':
@@ -169,3 +169,4 @@ def library_menu_system():
 
 if __name__ == "__main__":
     library_menu_system()
+    
